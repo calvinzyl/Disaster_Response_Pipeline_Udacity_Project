@@ -43,11 +43,15 @@ The following libraries and packages are required to run the scripts in the web 
 ```
 project
 │   README.md
-│   run.py
-|   train_classifier.py
-|   classifier.pkl
 |   model_prediction.jpg
-|   plotly_graphs.jpg    
+|   plotly_graphs.jpg
+|
+└───app
+|   |
+|   └───templates
+|   |   |   master.html
+|   |   |   go.html
+|   |   run.py
 │
 └───data
 │   │   DisasterDB.db
@@ -56,9 +60,9 @@ project
 |   |   process_data.py
 │   │
 │   
-└───templates
-|   │   go.html
-|   │   master.html
+└───models
+|   │   classifier.pkl
+|   │   train_classifier.py
 ```
 
 # How to run the app?
