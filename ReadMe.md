@@ -32,6 +32,12 @@ The following libraries and packages are required to run the scripts in the web 
 * **run.py** <br>
   This is the Python script used to deploy the web app, which includes specifying the Flask backend, indexing the webpage, displaying cool visuals, and receiving user input text for the model.
 
+## Web app screenshots
+
+![alt text](https://github.com/calvinzyl/Disaster_Response_Pipeline_Udacity_Project/blob/main/plotly_graphs.jpg?raw=true)
+![alt text](https://github.com/calvinzyl/Disaster_Response_Pipeline_Udacity_Project/blob/main/model_prediction.jpg?raw=true)
+
+
 # Folder Structure
 
 ```
