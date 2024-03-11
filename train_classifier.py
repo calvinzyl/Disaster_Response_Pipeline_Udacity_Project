@@ -20,6 +20,22 @@ from sklearn.metrics import confusion_matrix, classification_report
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 
 class HasVerbExtractor(BaseEstimator, TransformerMixin):
+    """
+    This class defines a custom feature transformation
+    that extracts an indicator from raw document showing
+    if the document has verbs in it
+    
+    Attributes:
+    -----------
+    text str:
+        an array-like collection of text documents
+        
+    Methods:
+    --------
+    fit_transform:
+        Learn if each document contains verbs and return
+        a Boolean
+    """
 
     def starting_verb(self, text):
         sentence_list = nltk.sent_tokenize(text)
@@ -40,6 +56,19 @@ class HasVerbExtractor(BaseEstimator, TransformerMixin):
 
 
 def load_data(database_filepath):
+    """
+    This function loads the post-ETL data from the SQLite
+    database and split it into features and labels for ML
+    modeling purposes
+    
+    Parameters:
+    database_filepath (str): name of the database
+    
+    Returns:
+    X (array-like): array of feature inputs
+    y (array-like): array of labels/outputs
+    categories_names (list): a list of category names
+    """
     
     engine = create_engine(f'sqlite:///{database_filepath}')
     df = pd.read_sql("select * from disaster_data", engine)
@@ -53,6 +82,16 @@ def load_data(database_filepath):
 
 
 def tokenize(text):
+    """
+    This function cleans the text document, tokenize
+    it, and lemmatizes the tokens
+    
+    Parameters:
+    text (str): raw text document
+    
+    Returns:
+    lemms (list): list of lemmas
+    """
     
     if type(text) == float:
         return ''
@@ -75,6 +114,14 @@ def tokenize(text):
 
 
 def build_model():
+    """
+    This function combines the feature engineering
+    and modeling parts into a pipeline and uses GridSearchCV
+    to find the best parameter of the model
+    
+    Returns:
+    cv: instance of a fitted estimator with best parameter
+    """
     
     pipeline = Pipeline([
         ('features', FeatureUnion([
@@ -97,6 +144,19 @@ def build_model():
 
 
 def evaluate_model(model, X_test, Y_test, category_names):
+    """
+    This function evaluate the model prediction result against
+    the test data based on precision, recall, and F1-score
+    
+    Parameters:
+    model: instance of fitted estimator
+    X_test (array-like): array of input features in the test data
+    Y_test (array-like): array of output labels in the test data
+    category names (list): list of category names
+    
+    Returns:
+    None
+    """
     
     y_pred = model.predict(X_test)
 
@@ -112,6 +172,16 @@ def evaluate_model(model, X_test, Y_test, category_names):
 
 
 def save_model(model, model_filepath):
+    """
+    This function saves the fitted model to a pickle file
+    
+    Parameters:
+    model: instance of fitted estimator
+    model_filepath: name and path of the model pickle file
+
+    Returns:
+    None
+    """
     
     import pickle
     pickle.dump(model, open(model_filepath, 'wb'))
