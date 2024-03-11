@@ -33,19 +33,18 @@ import re
 
 
 app = Flask(__name__)
-'''
-def (text):
-    tokens = word_(text)
-    lemmatizer = WordNetLemmatizer()
 
-    clean_tokens = []
-    for tok in tokens:
-        clean_tok = lemmatizer.lemmatize(tok).lower().strip()
-        clean_tokens.append(clean_tok)
-
-    return clean_tokens
-'''
 def tokenize(text):
+    """
+    This function cleans the text document, tokenize
+    it, and lemmatizes the tokens
+    
+    Parameters:
+    text (str): raw text document
+    
+    Returns:
+    lemms (list): list of lemmas
+    """
     
     if type(text) == float:
         return ''
@@ -68,13 +67,24 @@ def tokenize(text):
     return lemms
 
 
-def tb_senti(x):
-    from textblob import TextBlob
-    x = ' '.join(x)
-    return TextBlob(x).sentiment.polarity
-
 
 class HasVerbExtractor(BaseEstimator, TransformerMixin):
+    """
+    This class defines a custom feature transformation
+    that extracts an indicator from raw document showing
+    if the document has verbs in it
+    
+    Attributes:
+    -----------
+    text str:
+        an array-like collection of text documents
+        
+    Methods:
+    --------
+    fit_transform:
+        Learn if each document contains verbs and return
+        a Boolean
+    """
 
     def starting_verb(self, text):
         sentence_list = nltk.sent_tokenize(text)
@@ -97,6 +107,9 @@ class HasVerbExtractor(BaseEstimator, TransformerMixin):
 engine = create_engine('sqlite:///../data/DisasterDB.db')
 df = pd.read_sql_table('disaster_data', engine)
 
+#engine = create_engine('sqlite:///DisasterDB.db')
+#df = pd.read_sql("select * from disaster_data", engine)
+
 # load model
 model = joblib.load("../models/classifier.pkl")
 
@@ -104,7 +117,18 @@ model = joblib.load("../models/classifier.pkl")
 # index webpage displays cool visuals and receives user input text for model
 @app.route('/')
 @app.route('/index')
+
 def index():
+    """
+    This function renders the webpage that displays visuals and receives user
+    input text for model
+    
+    Parameters:
+    None
+    
+    Returns:
+    Flask.render_template() result based on master.html and Plotly visuals
+    """
     
     # extract data needed for visuals
     # TODO: Below is an example - modify to extract data for your own visuals
@@ -160,6 +184,17 @@ def index():
 # web page that handles user query and displays model results
 @app.route('/go')
 def go():
+    """
+    This function handles user query and from the web page and displays model results
+    
+    Parameters:
+    None
+    
+    Returns:
+    Flask.render_template() method based on go.html and model results
+    """
+    
+    
     # save user input in query
     query = request.args.get('query', '') 
 
