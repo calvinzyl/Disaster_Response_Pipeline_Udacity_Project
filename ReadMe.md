@@ -32,3 +32,25 @@ The following libraries and packages are required to run the scripts in the web 
 * **run.py** <br>
   This is the Python script to deploy the web app, which includes specifying Flask backend, indexing webpage displaying cool visuals and receiving user input text for the model.
 
+# Folder Structure
+
+```
+project
+│   README.md
+│   run.py
+|   train_classifier.py
+|   classifier.pkl
+|   model_prediction.jpg
+|   plotly_graphs.jpg    
+│
+└───data
+│   │   DisasterDB.db
+│   │   disaster_categories.csv
+|   |   disaster_messages.csv
+|   |   process_data.py
+│   │
+│   
+└───templates
+|   │   go.html
+|   │   master.html
+```
